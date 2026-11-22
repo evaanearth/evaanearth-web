@@ -1,0 +1,15 @@
+import { Router } from 'express';
+import * as c from '../controllers/auth.controller.js';
+import { requireAuth } from '../middlewares/auth.js';
+import { authLimiter } from '../middlewares/rateLimit.js';
+import { validate } from '../middlewares/validate.js';
+import { registerSchema, loginSchema, forgotSchema, resetSchema } from '../validations/schemas.js';
+const router = Router();
+router.post('/register', authLimiter, validate(registerSchema), c.register);
+router.post('/login', authLimiter, validate(loginSchema), c.login);
+router.post('/refresh', authLimiter, c.refresh);
+router.post('/logout', requireAuth, c.logout);
+router.get('/me', requireAuth, c.me);
+router.post('/forgot-password', authLimiter, validate(forgotSchema), c.forgotPassword);
+router.post('/reset-password', authLimiter, validate(resetSchema), c.resetPassword);
+export default router;

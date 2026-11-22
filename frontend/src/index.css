@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root { font-family: 'DM Sans', Inter, sans-serif; color: #28301f; background: #FFFEEC; font-synthesis: none; text-rendering: optimizeLegibility; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; background: #FFFEEC; }
+button, input, textarea { font: inherit; }
+::selection { background: #CECEAA; color: #343a1d; }
+.container-shell { width: min(1840px, calc(100% - clamp(32px, 6vw, 144px))); margin-inline: auto; }
+@media (min-width: 1920px) { .container-shell { width: min(1840px, calc(100% - 10vw)); } }
+@media (min-width: 2560px) { .container-shell { width: min(1960px, calc(100% - 12vw)); } }
+.product-card { min-width: 0; }
+.category-tile { display:flex; min-height:210px; flex-direction:column; align-items:flex-start; justify-content:flex-end; border:1px solid rgba(148,152,115,.18); border-radius:1.25rem; padding:1.35rem; transition:transform .25s, box-shadow .25s; }
+.category-tile:hover { transform:translateY(-4px); box-shadow:0 12px 32px rgba(45,51,29,.08); }
+.menu-link { display:flex; align-items:center; gap:.65rem; border-radius:.65rem; padding:.65rem .75rem; font-size:.82rem; color:#434923; }
+.menu-link:hover { background:#f2f2e9; }
+.page-center { min-height:55vh; display:grid; place-items:center; }
+.loader { width:34px; height:34px; border:3px solid #dbdcd7; border-top-color:#434923; border-radius:50%; animation:spin .7s linear infinite; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.skeleton { border-radius:1.1rem; background:linear-gradient(100deg,#edede5 20%,#f8f8f2 40%,#edede5 60%); background-size:200% 100%; animation:shimmer 1.2s infinite; }
+@keyframes shimmer { to { background-position-x:-200%; } }
+@media(max-width:640px) { .container-shell { width: calc(100% - 28px); } }
+@media (min-width: 1600px) { body { font-size: 16.5px; } }
+@media (min-width: 2200px) { body { font-size: 17px; } }

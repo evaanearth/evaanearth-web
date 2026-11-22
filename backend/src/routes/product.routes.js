@@ -1,0 +1,14 @@
+import { Router } from 'express';
+import * as c from '../controllers/product.controller.js';
+import { requireAuth, requireRole } from '../middlewares/auth.js';
+import { ROLES } from '../constants/roles.js';
+import { validate } from '../middlewares/validate.js';
+import { productSchema } from '../validations/schemas.js';
+const router = Router();
+router.get('/', c.list);
+router.get('/seller/all', requireAuth, requireRole(ROLES.SELLER), c.sellerList);
+router.get('/:slug', c.detail);
+router.post('/', requireAuth, requireRole(ROLES.SELLER), validate(productSchema), c.create);
+router.patch('/:id', requireAuth, requireRole(ROLES.SELLER), c.update);
+router.delete('/:id', requireAuth, requireRole(ROLES.SELLER), c.archive);
+export default router;

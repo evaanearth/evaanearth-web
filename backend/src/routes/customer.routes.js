@@ -1,0 +1,11 @@
+import { Router } from 'express';
+import * as c from '../controllers/customer.controller.js';
+import { validate } from '../middlewares/validate.js';
+import { requireAuth } from '../middlewares/auth.js';
+import { addressSchema, reserveSchema } from '../validations/schemas.js';
+const router = Router(); router.use(requireAuth);
+router.get('/cart', c.getCart); router.post('/cart/items', c.addCartItem); router.patch('/cart/items/:productId', c.updateCartItem); router.delete('/cart/items/:productId', c.removeCartItem);
+router.get('/wishlist', c.getWishlist); router.post('/wishlist/:productId', c.toggleWishlist);
+router.get('/addresses', c.listAddresses); router.post('/addresses', validate(addressSchema), c.addAddress); router.patch('/addresses/:id', c.updateAddress); router.delete('/addresses/:id', c.deleteAddress); router.patch('/addresses/:id/primary', c.setPrimaryAddress);
+router.post('/orders/reserve', validate(reserveSchema), c.reserveOrder); router.get('/orders/my', c.myOrders); router.get('/orders/:id', c.getOrder);
+export default router;

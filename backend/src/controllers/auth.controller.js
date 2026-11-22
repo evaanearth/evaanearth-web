@@ -1,0 +1,12 @@
+import * as auth from '../services/auth.service.js';
+import { asyncHandler } from '../utils/asyncHandler.js';
+import { env } from '../config/env.js';
+const cookieOptions = { httpOnly: true, secure: env.COOKIE_SECURE === 'true' || env.NODE_ENV === 'production', sameSite: 'lax', path: '/api/v1/auth', maxAge: env.REFRESH_TOKEN_DAYS * 86400000 };
+const setRefresh = (res, token) => res.cookie('ee_refresh', token, cookieOptions);
+export const register = asyncHandler(async (req, res) => { const data = await auth.register(req.body); setRefresh(res, data.refreshToken); res.status(201).json({ success: true, data: { user: data.user, accessToken: data.accessToken } }); });
+export const login = asyncHandler(async (req, res) => { const data = await auth.login(req.body); setRefresh(res, data.refreshToken); res.json({ success: true, data: { user: data.user, accessToken: data.accessToken } }); });
+export const refresh = asyncHandler(async (req, res) => { const data = await auth.rotateRefresh(req.cookies.ee_refresh); setRefresh(res, data.refreshToken); res.json({ success: true, data: { user: data.user, accessToken: data.accessToken } }); });
+export const logout = asyncHandler(async (req, res) => { await auth.logout(req.user.id, req.cookies.ee_refresh); res.clearCookie('ee_refresh', { ...cookieOptions, maxAge: 0 }); res.json({ success: true, message: 'Signed out' }); });
+export const me = asyncHandler(async (req, res) => res.json({ success: true, data: { user: req.user } }));
+export const forgotPassword = asyncHandler(async (req, res) => { const result = await auth.beginPasswordReset(req.body.email); res.json({ success: true, data: result }); });
+export const resetPassword = asyncHandler(async (req, res) => { const result = await auth.resetPassword(req.body); res.json({ success: true, data: result }); });

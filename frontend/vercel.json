@@ -5,7 +5,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://YOUR-RENDER-URL.onrender.com/api/:path*"
+      "destination": "https://evaanearth-web.onrender.com/api/:path*"
     },
     {
       "source": "/(.*)",
